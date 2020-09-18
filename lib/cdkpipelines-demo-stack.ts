@@ -9,7 +9,7 @@ export class CdkpipelinesDemoStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    const handler = new lambda.Function("this", "Lambda", {
+    const handler = new lambda.Function(this, "Lambda", {
       runtime: lambda.Runtime.NODEJS_12_X,
       handler: "handler.handler",
       code: lambda.Code.fromAsset(path.resolve(__dirname, "lambda")),
