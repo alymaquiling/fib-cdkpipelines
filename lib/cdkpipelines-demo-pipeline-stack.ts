@@ -3,6 +3,7 @@ import * as codepipeline_actions from "@aws-cdk/aws-codepipeline-actions";
 import { Construct, SecretValue, Stack, StackProps } from "@aws-cdk/core";
 import { CdkPipeline, SimpleSynthAction } from "@aws-cdk/pipelines";
 import { CdkpipelinesDemoStage } from "./cdkpipelines-demo-stage";
+import { ShellScriptAction } from "@aws-cdk/pipelines";
 // stack defines app pipeline
 
 export class CdkpipelinesDemoPipelineStack extends Stack {
@@ -34,12 +35,27 @@ export class CdkpipelinesDemoPipelineStack extends Stack {
       }),
     });
 
-    pipeline.addApplicationStage(
-      new CdkpipelinesDemoStage(this, "PreProd", {
-        env: { account: "986128056609", region: "us-east-1" },
+    const preprod = new CdkpipelinesDemoStage(this, "PreProd", {
+      env: { account: "986128056609", region: "us-east-1" },
+    });
+
+    const preprodStage = pipeline.addApplicationStage(preprod);
+    preprodStage.addActions(
+      new ShellScriptAction({
+        actionName: "TestService",
+        useOutputs: {
+          // stack output from stage,
+          // make available in shell script
+          // as $ENDPOINT_URL
+          ENDPOINT_URL: pipeline.stackOutput(preprod.urlOutput),
+        },
+        commands: [
+          // use curl to get the full url
+          // fail if returns error
+          "curl -Ssf $ENDPOINT_URL",
+        ],
       })
     );
-
     pipeline.addApplicationStage(
       new CdkpipelinesDemoStage(this, "Prod", {
         env: {
