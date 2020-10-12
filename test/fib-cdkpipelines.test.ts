@@ -1,5 +1,5 @@
 import { expect as expectCDK, matchTemplate, MatchStyle } from '@aws-cdk/assert';
-import * as cdk from '../node_modules/@aws-cdk/core';
+import * as cdk from '@aws-cdk/core';
 import * as FibCdkpipelines from '../app-def/fib-cdkpipelines-stack';
 
 test('Empty Stack', () => {
