@@ -15,7 +15,7 @@ const env = {
   
 const app = new App();
 
-new FibCdkpipelinesPipelineStack(app, "CdkpipelinesDemoPipelineStack", {
+new FibCdkpipelinesPipelineStack(app, "FibCdkpipelinesPipelineStack", {
   env: env,
 });
 
