@@ -44,7 +44,7 @@ export class FibCdkpipelinesPipelineStack extends Stack {
       synthAction: new SimpleSynthAction({
         sourceArtifact,
         cloudAssemblyArtifact,
-        synthCommand: ""
+        synthCommand: "cdk synth"
       }),
     });
 
