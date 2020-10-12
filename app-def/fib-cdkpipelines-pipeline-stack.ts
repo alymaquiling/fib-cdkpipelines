@@ -36,8 +36,8 @@ export class FibCdkpipelinesPipelineStack extends Stack {
         actionName: "Github",
         output: sourceArtifact,
         oauthToken: SecretValue.secretsManager(process.env.SECRETSMANAGER_GITHUB_TOKEN!),
-        owner: process.env.GITHUB_ACCOUNT!,
-        repo: process.env.GITGUB_REPO!,
+        owner: process.env.GITHUB_USERNAME!,
+        repo: process.env.GITHUB_REPO!
       }),
 
       // how it will be built + synthsized
