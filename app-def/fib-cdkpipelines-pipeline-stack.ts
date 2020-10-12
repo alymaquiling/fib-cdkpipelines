@@ -41,12 +41,10 @@ export class FibCdkpipelinesPipelineStack extends Stack {
       }),
 
       // how it will be built + synthsized
-      synthAction: SimpleSynthAction.standardNpmSynth({
+      synthAction: new SimpleSynthAction({
         sourceArtifact,
         cloudAssemblyArtifact,
-
-        // build step to compile Typescript Lambda
-        buildCommand: "npm run build",
+        synthCommand: ""
       }),
     });
 
