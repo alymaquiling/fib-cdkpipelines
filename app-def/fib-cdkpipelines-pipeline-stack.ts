@@ -2,13 +2,28 @@ import * as codepipeline from "@aws-cdk/aws-codepipeline";
 import * as codepipeline_actions from "@aws-cdk/aws-codepipeline-actions";
 import { Construct, SecretValue, Stack, StackProps } from "@aws-cdk/core";
 import { CdkPipeline, SimpleSynthAction } from "@aws-cdk/pipelines";
-import { CdkpipelinesDemoStage } from "./cdkpipelines-demo-stage";
+import { FibCdkpipelinesStage } from "./fib-cdkpipelines-stage";
 import { ShellScriptAction } from "@aws-cdk/pipelines";
 // stack defines app pipeline
 
-export class CdkpipelinesDemoPipelineStack extends Stack {
+export class FibCdkpipelinesPipelineStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
+
+    const path = require('path')
+    require('dotenv').config({
+      path: path.resolve(__dirname,"../.env")
+    })
+
+    const preProdEnv = {
+      account: process.env.AWS_ACCOUNT_PREPROD!,
+      region: process.env.AWS_REGION_PREPROD!
+    }
+
+    const prodEnv = {
+      account: process.env.AWS_ACCOUNT_PROD!,
+      region: process.env.AWS_REGION_PROD!
+    }
 
     const sourceArtifact = new codepipeline.Artifact();
     const cloudAssemblyArtifact = new codepipeline.Artifact();
@@ -20,9 +35,9 @@ export class CdkpipelinesDemoPipelineStack extends Stack {
       sourceAction: new codepipeline_actions.GitHubSourceAction({
         actionName: "Github",
         output: sourceArtifact,
-        oauthToken: SecretValue.secretsManager("github-access-token"),
-        owner: "alymaquiling",
-        repo: "aws-cdk-pipeline",
+        oauthToken: SecretValue.secretsManager(process.env.SECRETSMANAGER_GITHUB_TOKEN!),
+        owner: process.env.GITHUB_ACCOUNT!,
+        repo: process.env.GITGUB_REPO!,
       }),
 
       // how it will be built + synthsized
@@ -35,8 +50,8 @@ export class CdkpipelinesDemoPipelineStack extends Stack {
       }),
     });
 
-    const preprod = new CdkpipelinesDemoStage(this, "PreProd", {
-      env: { account: "986128056609", region: "us-east-1" },
+    const preprod = new FibCdkpipelinesStage(this, "PreProd", {
+      env: preProdEnv,
     });
 
     const preprodStage = pipeline.addApplicationStage(preprod);
@@ -57,11 +72,8 @@ export class CdkpipelinesDemoPipelineStack extends Stack {
       })
     );
     pipeline.addApplicationStage(
-      new CdkpipelinesDemoStage(this, "Prod", {
-        env: {
-          account: "986128056609",
-          region: "us-east-2",
-        },
+      new FibCdkpipelinesStage(this, "Prod", {
+        env: prodEnv,
       })
     );
   }
