@@ -4,16 +4,13 @@ import { Construct, SecretValue, Stack, StackProps } from "@aws-cdk/core";
 import { CdkPipeline, SimpleSynthAction } from "@aws-cdk/pipelines";
 import { FibCdkpipelinesStage } from "./fib-cdkpipelines-stage";
 import { ShellScriptAction } from "@aws-cdk/pipelines";
+import { BuildEnvironment, BuildEnvironmentVariable } from "@aws-cdk/aws-codebuild"
+
 // stack defines app pipeline
 
 export class FibCdkpipelinesPipelineStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
-
-    const path = require('path')
-    require('dotenv').config({
-      path: path.resolve(__dirname,"../.env")
-    })
 
     const preProdEnv = {
       account: process.env.AWS_ACCOUNT_PREPROD!,
@@ -27,6 +24,16 @@ export class FibCdkpipelinesPipelineStack extends Stack {
 
     const sourceArtifact = new codepipeline.Artifact();
     const cloudAssemblyArtifact = new codepipeline.Artifact();
+
+    const s3Bucket: BuildEnvironmentVariable = {value: process.env.S3_BUCKET}
+    const dynamoDbTable: BuildEnvironmentVariable = {value: process.env.DYNAMODB_TABLE}
+
+    const env: BuildEnvironment = {
+      environmentVariables: {
+        S3_BUCKET: s3Bucket,
+        DYNAMODB_TABLE: dynamoDbTable
+      }
+    }
 
     const pipeline = new CdkPipeline(this, "Pipeline", {
       pipelineName: "MyServicePipeline",
@@ -48,8 +55,10 @@ export class FibCdkpipelinesPipelineStack extends Stack {
         // We need a build step to compile the TypeScript Lambda
         installCommand: 'npm install -g aws-cdk typescript',
         buildCommand: 'npm install && npm run build',
-        synthCommand: 'cdk synth'
+        synthCommand: 'cdk synth',
+        environment: env
       }),
+      
     });
 
     const preprod = new FibCdkpipelinesStage(this, "PreProd", {
