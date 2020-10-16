@@ -24,12 +24,12 @@ export class FibCdkpipelinesPipelineStack extends Stack {
 
     const preProdEnv = {
       account: process.env.AWS_ACCOUNT_PREPROD!,
-      region: process.env.AWS_REGION_PREPROD!
+      region: process.env.AWS_REGION_PREPROD!,
     }
 
     const prodEnv = {
       account: process.env.AWS_ACCOUNT_PROD!,
-      region: process.env.AWS_REGION_PROD!
+      region: process.env.AWS_REGION_PROD!,
     }
 
     const sourceArtifact = new codepipeline.Artifact();

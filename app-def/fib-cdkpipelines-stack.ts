@@ -14,13 +14,10 @@ export class FibCdkpipelinesStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-   
-
     const env = {
       DYNAMODB_TABLE: process.env.DYNAMODB_TABLE!,
       S3_BUCKET: process.env.S3_BUCKET!
     }
-
     // define lambdas
     const lambdaA = new lambda.Function(this, "lambdaA", {
       runtime: lambda.Runtime.PYTHON_3_7,
@@ -75,7 +72,7 @@ export class FibCdkpipelinesStack extends Stack {
     // https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-stepfunctions.StateMachine.html
     const stateMachine = new sfn.StateMachine(this, "stateMachine", {
       definition: stepChain,
-      stateMachineName: "Run-Lambdas",
+      stateMachineName: `Run-Lambdas-${this.node.uniqueId}`,
     });
 
     // setting up existing table
