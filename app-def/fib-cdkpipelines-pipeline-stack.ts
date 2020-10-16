@@ -39,15 +39,15 @@ export class FibCdkpipelinesPipelineStack extends Stack {
         owner: process.env.GITHUB_USERNAME!,
         repo: process.env.GITHUB_REPO!
       }),
-
+      
       // How it will be built and synthesized
-      synthAction: SimpleSynthAction.standardNpmSynth({
+      synthAction: new SimpleSynthAction({
         sourceArtifact,
         cloudAssemblyArtifact,
         
         // We need a build step to compile the TypeScript Lambda
-        installCommand: 'npm install -g aws-cdk typescript',
-        buildCommand: 'npm install && npm run build',
+        installCommands: ['printenv > .env','npm install -g aws-cdk typescript'],
+        buildCommands: ['npm install', 'npm run build'],
         synthCommand: 'cdk synth'
       }),
     });
