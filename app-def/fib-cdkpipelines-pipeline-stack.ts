@@ -63,7 +63,7 @@ export class FibCdkpipelinesPipelineStack extends Stack {
         // We need a build step to compile the TypeScript Lambda
         installCommand: 'npm install -g aws-cdk typescript',
         buildCommands: ['npm install', 'npm run build'],
-        synthCommand: 'cdk synth'
+        synthCommand: 'npm run cdk synth -v'
       }),
       
     });
