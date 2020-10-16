@@ -45,7 +45,7 @@ export class FibCdkpipelinesPipelineStack extends Stack {
         output: sourceArtifact,
         oauthToken: SecretValue.secretsManager(process.env.SECRETSMANAGER_GITHUB_TOKEN!),
         owner: process.env.GITHUB_USERNAME!,
-        repo: process.env.GITHUB_REPO!
+        repo: process.env.GITHUB_REPO!,
       }),
       
       // How it will be built and synthesized
@@ -53,10 +53,12 @@ export class FibCdkpipelinesPipelineStack extends Stack {
         sourceArtifact,
         cloudAssemblyArtifact,
         environmentVariables: {
-          s3Bucket: {value: process.env.S3_BUCKET},
-          dynamoDbTable: {value: process.env.DYNAMODB_TABLE},
-          account: {value: process.env.AWS_ACCOUNT_PREPROD!},
-          region: {value: process.env.AWS_REGION_PREPROD!}
+          S3_BUCKET: {value: process.env.S3_BUCKET},
+          DYNAMODB_TABLE: {value: process.env.DYNAMODB_TABLE},
+          SECRETSMANAGER_GITHUB_TOKEN: { value: process.env.SECRETSMANAGER_GITHUB_TOKEN!},
+          GITHUB_USERNAME: { value: process.env.GITHUB_USERNAME!},
+          GITHUB_REPO: { value: process.env.GITHUB_REPO!}
+
         },
         // We need a build step to compile the TypeScript Lambda
         installCommand: 'npm install -g aws-cdk typescript',

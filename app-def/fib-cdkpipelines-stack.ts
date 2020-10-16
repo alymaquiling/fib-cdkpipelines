@@ -14,6 +14,7 @@ export class FibCdkpipelinesStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
+   
 
     const env = {
       DYNAMODB_TABLE: process.env.DYNAMODB_TABLE!,

@@ -4,8 +4,6 @@ import { FibCdkpipelinesPipelineStack } from "../app-def/fib-cdkpipelines-pipeli
 import { FibCdkpipelinesStage } from "../app-def/fib-cdkpipelines-stage";
 
 
-
-  
 const app = new App();
 
 new FibCdkpipelinesPipelineStack(app, "FibCdkpipelinesPipelineStack", {
