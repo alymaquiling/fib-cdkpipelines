@@ -14,12 +14,6 @@ export class FibCdkpipelinesStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    // setting up environment variables for resource names (DynamoDB and S3)
-    // uses variables in ../.env
-    const path = require('path')
-    require('dotenv').config({
-      path: path.resolve(__dirname,"../.env")
-    })
 
     const env = {
       DYNAMODB_TABLE: process.env.DYNAMODB_TABLE!,

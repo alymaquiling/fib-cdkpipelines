@@ -4,12 +4,19 @@ import { Construct, SecretValue, Stack, StackProps } from "@aws-cdk/core";
 import { CdkPipeline, SimpleSynthAction } from "@aws-cdk/pipelines";
 import { FibCdkpipelinesStage } from "./fib-cdkpipelines-stage";
 import { ShellScriptAction } from "@aws-cdk/pipelines";
+
 // stack defines app pipeline
 
 export class FibCdkpipelinesPipelineStack extends Stack {
+  public readonly env: string;
+  public readonly region: string;
   constructor(scope: Construct, id: string, props?: StackProps) {
+    
     super(scope, id, props);
-
+    this.env = process.env.CDK_DEFAULT_ACCOUNT!
+    this.region = process.env.CDK_DEFAULT_REGION!
+     // setting up environment variables for resource names (DynamoDB and S3)
+    // uses variables in ../.env
     const path = require('path')
     require('dotenv').config({
       path: path.resolve(__dirname,"../.env")
@@ -28,6 +35,7 @@ export class FibCdkpipelinesPipelineStack extends Stack {
     const sourceArtifact = new codepipeline.Artifact();
     const cloudAssemblyArtifact = new codepipeline.Artifact();
 
+
     const pipeline = new CdkPipeline(this, "Pipeline", {
       pipelineName: "MyServicePipeline",
       cloudAssemblyArtifact,
@@ -44,12 +52,18 @@ export class FibCdkpipelinesPipelineStack extends Stack {
       synthAction: new SimpleSynthAction({
         sourceArtifact,
         cloudAssemblyArtifact,
-        
+        environmentVariables: {
+          s3Bucket: {value: process.env.S3_BUCKET},
+          dynamoDbTable: {value: process.env.DYNAMODB_TABLE},
+          account: {value: process.env.AWS_ACCOUNT_PREPROD!},
+          region: {value: process.env.AWS_REGION_PREPROD!}
+        },
         // We need a build step to compile the TypeScript Lambda
-        installCommands: ['printenv > .env','npm install -g aws-cdk typescript'],
+        installCommand: 'npm install -g aws-cdk typescript',
         buildCommands: ['npm install', 'npm run build'],
         synthCommand: 'cdk synth'
       }),
+      
     });
 
     const preprod = new FibCdkpipelinesStage(this, "PreProd", {

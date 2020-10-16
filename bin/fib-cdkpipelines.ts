@@ -3,10 +3,6 @@ import { App } from "@aws-cdk/core";
 import { FibCdkpipelinesPipelineStack } from "../app-def/fib-cdkpipelines-pipeline-stack";
 import { FibCdkpipelinesStage } from "../app-def/fib-cdkpipelines-stage";
 
-const path = require('path')
-    require('dotenv').config({
-      path: path.resolve(__dirname,"../.env")
-    })
 
 const env = {
   account: process.env.AWS_ACCOUNT_PREPROD!,
