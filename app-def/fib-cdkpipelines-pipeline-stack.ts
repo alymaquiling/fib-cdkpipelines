@@ -84,6 +84,7 @@ export class FibCdkpipelinesPipelineStack extends Stack {
           ENDPOINT_URL: pipeline.stackOutput(preprod.urlOutput),
         },
         commands: [
+          "echo $ENDPOINT_URL",
           // use curl to get the full url
           // fail if returns error
           "curl -Ssf $ENDPOINT_URL",
