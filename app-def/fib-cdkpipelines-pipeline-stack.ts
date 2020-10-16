@@ -46,6 +46,7 @@ export class FibCdkpipelinesPipelineStack extends Stack {
         oauthToken: SecretValue.secretsManager(process.env.SECRETSMANAGER_GITHUB_TOKEN!),
         owner: process.env.GITHUB_USERNAME!,
         repo: process.env.GITHUB_REPO!,
+        
       }),
       
       // How it will be built and synthesized
@@ -63,7 +64,7 @@ export class FibCdkpipelinesPipelineStack extends Stack {
         // We need a build step to compile the TypeScript Lambda
         installCommand: 'npm install -g aws-cdk typescript',
         buildCommands: ['npm install', 'npm run build'],
-        synthCommand: 'npm run cdk synth -v'
+        synthCommand: 'cdk synth -v'
       }),
       
     });
