@@ -4,15 +4,15 @@ import { FibCdkpipelinesPipelineStack } from "../app-def/fib-cdkpipelines-pipeli
 import { FibCdkpipelinesStage } from "../app-def/fib-cdkpipelines-stage";
 
 
-const env = {
-  account: process.env.AWS_ACCOUNT_PREPROD!,
-  region: process.env.AWS_REGION_PREPROD!
-}
+
   
 const app = new App();
 
 new FibCdkpipelinesPipelineStack(app, "FibCdkpipelinesPipelineStack", {
-  env: env,
+  env: {
+    account: process.env.CDK_DEFAULT_ACCOUNT,
+    region: process.env.CDK_DEFAULT_REGION,
+  },
 });
 
 new FibCdkpipelinesStage(app, "Dev", {
