@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { App } from "@aws-cdk/core";
-import { FibCdkpipelinesPipelineStack } from "../app-def/fib-cdkpipelines-pipeline-stack";
-import { FibCdkpipelinesStage } from "../app-def/fib-cdkpipelines-stage";
+import { FibCdkpipelinesPipelineStack } from "../pipeline/fib-cdkpipelines-pipeline-stack";
+import { FibCdkpipelinesStage } from "../pipeline/fib-cdkpipelines-stage";
 
 
 const app = new App();

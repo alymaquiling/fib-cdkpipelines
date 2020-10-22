@@ -1,5 +1,5 @@
 import { CfnOutput, Construct, Stage, StageProps } from "@aws-cdk/core";
-import { FibCdkpipelinesStack } from "./fib-cdkpipelines-stack";
+import { FibCdkpipelinesStack } from "../app-def/fib-cdkpipelines-stack";
 
 // Deployable unit of web service app
 
