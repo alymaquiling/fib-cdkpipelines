@@ -107,6 +107,7 @@ export class FibCdkpipelinesStack extends Stack {
     const fibApi = new apigw.RestApi(this, "fib-api", {
       restApiName: "Fibonacci Service",
     });
+    
     const getFibInteractions = new apigw.LambdaIntegration(lambdaD);
     fibApi.root.addMethod("POST", getFibInteractions);
 
