@@ -1,6 +1,6 @@
 # Fibonacci sequence... with AWS CDK!
 
-This is a proof-of-concept project that demonstrates IaC AWS resource deployment using TypeScript development with CDK with the following goals:
+This is a proof-of-concept project that demonstrates IaC AWS resource deployment using TypeScript development with CDK. The goals of this project are:
 - Building a Pipeline using AWS CDK for application architectures defined using CDK
 - Building a Pipeline to be used with multiple projects (easily added or removed)
 - Deploying products composed of multiple deployable elements
