@@ -5,7 +5,7 @@ This is a proof-of-concept project that demonstrates IaC AWS resource deployment
 - Building a Pipeline to be used with multiple projects (easily added or removed)
 - Deploying products composed of multiple deployable elements
 
-An S3 Bucket with a names.txt file and DynamoDB table with columns 'sequence_labels' and 'fib_values' must be created beforehand and configued in the .env file. The File on S3 contains a list of words to be used as Sequence Label values; words are not repeated; they have no other meaning.
+An S3 Bucket with a names.txt file and DynamoDB table with columns 'sequence_labels' and 'fib_values' must be created beforehand and configured in the .env file. The File on S3 contains a list of words to be used as Sequence Label values; words are not repeated; they have no other meaning.
 
 You must also have a GitHub personal access token generated with the following scope stored as a key in KMS: admin:repo_hook, repo, workflow
 
