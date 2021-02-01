@@ -32,6 +32,8 @@ The following resources will be provisioned for the Fibonacci Sequence API creat
 ## CI/CD Pipeline
 This API will be built and deployed using CodePipeline, also created with CDK, which will install npm packages, build this project, and synthesize the stack defined. A pre-prod environment will be set up for testing, and once successful, the application will be deployed in production. This process is triggered whenever changes are pushed to this repo's app-def folder.
 
+![ci-cd workflow](images/cicd.png)
+
 ## Useful commands
 
  * `npm run build`   compile typescript to js
